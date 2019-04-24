@@ -26,14 +26,14 @@ public class Application {
                 short releaseYear = Short.parseShort(reader.nextLine());
                 String[] genreOptions = {"Action", "Animation", "Comedy", "Drama", "Fantasy", "Horror", "Thriller"};
                 ArrayList<String> genres = new ArrayList<>();
-                System.out.println("Which genre(s) is the movie?");
-                for (String genre: genreOptions){
-                    System.out.print(genre+" ");
+                System.out.println("Which genre(s) is the movie? Please enter the genre number(s).");
+                for (int i = 0; i < genreOptions.length; i++){
+                    System.out.print(genreOptions[i]+"("+(i+1)+") ");
                 }
                 System.out.println();
                 String genreInput = reader.nextLine();
-                for (int i = 0; i <= genreInput.length(); i++){
-                     genres.add(genreOptions[(Character.getNumericValue(genreInput.charAt(i)) - 1)]);
+                for (int i = 0; i < genreInput.length(); i++){
+                    genres.add(genreOptions[(Character.getNumericValue(genreInput.charAt(i)) - 1)]);
                 }
                 Movie movie = new Movie(movieName, releaseYear, genres);
                 System.out.println(movie);
