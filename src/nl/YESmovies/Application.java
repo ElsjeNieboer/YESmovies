@@ -32,7 +32,7 @@ public class Application {
                 }
                 System.out.println();
                 String genreInput = reader.nextLine();
-                for (int i = 0; i<genreInput.length(); i++){
+                for (int i = 0; i <= genreInput.length(); i++){
                      genres.add(genreOptions[(Character.getNumericValue(genreInput.charAt(i)) - 1)]);
                 }
                 Movie movie = new Movie(movieName, releaseYear, genres);
