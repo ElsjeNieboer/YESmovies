@@ -9,7 +9,7 @@ public class Application {
 
         boolean keepGoing = true;
 
-        do {
+        MENU_OPTIONS: do {
             Scanner reader = new Scanner(System.in);
 
             System.out.println("If you want to add a new profile, press 'p'. If you want to add a new movie, press 'm'." +
