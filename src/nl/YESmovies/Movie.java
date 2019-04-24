@@ -3,9 +3,18 @@ package nl.YESmovies;
 import java.util.ArrayList;
 
 public class Movie {
+    public static ArrayList<Movie> movieList = new ArrayList<>();
+
     private long id;
     private String title;
     private short releaseYear;
+
+    public Movie(String title, short releaseYear, ArrayList<String> genres) {
+        this.title = title;
+        this.releaseYear = releaseYear;
+        this.genres = genres;
+    }
+
     private ArrayList<String> genres;
 
     public long getId() {
@@ -34,5 +43,14 @@ public class Movie {
 
     public void setGenres(ArrayList<String> genres) {
         this.genres = genres;
+    }
+
+    @Override
+    public String toString() {
+        return "Movie{" +
+                "title='" + title + '\'' +
+                ", releaseYear=" + releaseYear +
+                ", genres=" + genres +
+                '}';
     }
 }
