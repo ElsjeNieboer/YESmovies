@@ -3,7 +3,7 @@ package nl.YESmovies;
 import java.util.ArrayList;
 
 public class Movie {
-    public static ArrayList<Movie> movieList = new ArrayList<>();
+    public static int movieCounter = 0;
 
     private long id;
     private String title;
@@ -13,6 +13,7 @@ public class Movie {
         this.title = title;
         this.releaseYear = releaseYear;
         this.genres = genres;
+        this.id = ++movieCounter;
     }
 
     private ArrayList<String> genres;
@@ -48,7 +49,8 @@ public class Movie {
     @Override
     public String toString() {
         return "Movie{" +
-                "title='" + title + '\'' +
+                "id=" + id +
+                ", title='" + title + '\'' +
                 ", releaseYear=" + releaseYear +
                 ", genres=" + genres +
                 '}';
