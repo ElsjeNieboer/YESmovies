@@ -24,7 +24,7 @@ public class Application {
             } else if (userInput.equals("r")) {
                 // Add Rating
 
-                
+
 
                 do {
                     System.out.println("To rate a movie, please enter your username. To return to main screen, press c");
