@@ -24,8 +24,6 @@ public class Application {
             } else if (userInput.equals("r")) {
                 // Add Rating
 
-
-
                 do {
                     System.out.println("To rate a movie, please enter your username. To return to main screen, press c");
 
@@ -39,7 +37,7 @@ public class Application {
                             if (movieTitle == "c"){
                                 continue MENU_OPTIONS;
                             } else if(Movie.movieList.contains(movieTitle)){ // if exists movietitle object
-                                GIVE_RATING: do {
+                                do {
                                     System.out.println("You are rating " + movieTitle + "\nHow would you rate this movie? Enter a rating between 0.0 and 10.0. To return to main screen press c");
                                     String movieRatingInput = reader.nextLine().trim();
 
@@ -50,14 +48,16 @@ public class Application {
 
                                             // movieObject.addYesRating((float)movieRating);
                                             // profileObject.setMyRating(movieTitle, movieRating);
+
+                                        }else {
+                                            System.out.println("that is not a valid rating (not within the required range), please try again");
                                         }
                                     }
                                     catch(NumberFormatException e){
                                         if (movieRatingInput == "c") {
                                             continue MENU_OPTIONS;
                                         } else {
-                                        System.out.println("that is not a valid rating, please try again");
-                                        continue GIVE_RATING;
+                                        System.out.println("that is not a valid rating (not a number), please try again");
                                         }
                                     }
                                 }
