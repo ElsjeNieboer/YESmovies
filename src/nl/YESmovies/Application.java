@@ -76,7 +76,7 @@ public class Application {
                             enteredValidGenre = false;
                         }
                     } while (!enteredValidGenre);
-                    
+
                     Collections.sort(genres);
 
                     Movie movie = new Movie(movieName, releaseYear, genres);
