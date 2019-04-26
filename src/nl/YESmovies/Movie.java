@@ -7,6 +7,7 @@ public class Movie {
     private String title;
     private short releaseYear;
     private ArrayList<String> genres;
+    public static ArrayList<String> movieList = new ArrayList<>();
 
     public long getId() {
         return id;
