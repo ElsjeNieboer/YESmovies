@@ -147,9 +147,9 @@ public class Application {
 
                     System.out.println(movie);
 
-                    System.out.println("If you want to add another movie, press 'y', if not press 'n'.");
+                    System.out.println("If you want to add another movie, press 'y', if not press any key.");
 
-                    if (reader.nextLine().equals("n")){
+                    if (!reader.nextLine().equals("y")){
                         addMovie = false;
                     }
                 } while (addMovie);
