@@ -10,6 +10,8 @@ public class Application {
 
         boolean keepGoing = true;
 
+        String[] genreOptions = {"Action", "Animation", "Comedy", "Drama", "Fantasy", "Horror", "Thriller"};
+
         ArrayList<Movie> movieList = new ArrayList<>();
 
         MENU_OPTIONS: do {
@@ -108,8 +110,6 @@ public class Application {
                             enteredValidReleaseYear = false;
                         }
                     } while (!enteredValidReleaseYear);
-
-                    String[] genreOptions = {"Action", "Animation", "Comedy", "Drama", "Fantasy", "Horror", "Thriller"};
 
                     ArrayList<String> genres = new ArrayList<>();
 
