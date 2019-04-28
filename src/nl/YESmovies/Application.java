@@ -26,14 +26,19 @@ public class Application {
                 // Add Profile
                 boolean retryEnterUsername = true;
                 String newUsername;
-                System.out.println("What username would you like to use?");
                 do {
+                    System.out.println("What username would you like to use?");
                     newUsername = reader.nextLine();
                     // check if username is unique
                     if (Profile.profileList.contains(newUsername)) {
                         System.out.println("The username you entered is already in use. Please enter a different username.");
                     } else {
+                        System.out.println("The username you entered is: '"+newUsername+"'. \nIf you are happy with this username, press 'y'. " +
+                                "If you wish to make changes, press any other key.");
+                        String usernameDone = reader.nextLine();
+                        if (usernameDone.equals("y")) {
                         retryEnterUsername = false;
+                        }
                     }
                 } while (retryEnterUsername);
                 Profile newProfile = new Profile(newUsername);
@@ -85,6 +90,10 @@ public class Application {
                         retryEnterPreferredGenres = false;
                     }
                 } while (retryEnterPreferredGenres);
+
+                System.out.println("You have successfully created a new profile with the following username: "+newProfile.getUserName()+".\n" +
+                        "You have entered the following genres as your preferred genres: "+newProfile.getPreferredGenresText()+".");
+                System.out.println("You will now return to the main menu.");
 
             } else if (userInput.equals("m")) {
 
