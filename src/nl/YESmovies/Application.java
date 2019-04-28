@@ -161,16 +161,16 @@ public class Application {
                     System.out.println("To rate a movie, please enter your username. To return to main screen, press c");
 
                     String userName = reader.nextLine().trim();
-                    if (userName == "c"){
+                    if (userName.equals("c")){
                         continue MENU_OPTIONS;
                     } else if (Profile.profileList.contains(userName)) {
                         do{
                             System.out.println("You are now rating as user: " + userName + "\nWhat movie would you like to rate?, please enter the full movie title. To return to main screen press c");
                             String movieTitle = reader.nextLine().trim();
-                            if (movieTitle == "c"){
+                            if (movieTitle.equals("c")){
                                 continue MENU_OPTIONS;
                             } else if(Movie.movieList.contains(movieTitle)){ // if exists movietitle object
-                                do {
+                                RATE_MOVIE: do {
                                     System.out.println("You are rating " + movieTitle + "\nHow would you rate this movie? Enter a rating between 0.0 and 10.0. To return to main screen press c");
                                     String movieRatingInput = reader.nextLine().trim();
 
@@ -179,15 +179,27 @@ public class Application {
                                         if (movieRating >= 0 && movieRating <= 10) {
                                             movieRating = (double) Math.round(movieRating * 10) / 10;  //round to single digit
 
-                                            // movieObject.addYesRating((float)movieRating);
-                                            // profileObject.setMyRating(movieTitle, movieRating);
-
+                                            System.out.println("Would you like to rate " + movieTitle + " with a " + movieRating + "?" +
+                                                    "\nTo confirm, press y. To cancel, press n. To cancel and return to main screen, press c");
+                                            String rerate = reader.nextLine().trim();
+                                            if(rerate.equals("y")){
+                                                // movieObject.addYesRating((float)movieRating);
+                                                // profileObject.setMyRating(movieTitle, movieRating);
+                                                System.out.println("Thank you for rating this movie!");
+                                                continue MENU_OPTIONS;
+                                            } else if(rerate.equals("c")){
+                                                continue MENU_OPTIONS;
+                                            } else if(rerate.equals("n")){
+                                                continue RATE_MOVIE;
+                                            } else {
+                                                System.out.println("please enter a valid option");
+                                            }
                                         }else {
                                             System.out.println("that is not a valid rating (not within the required range), please try again");
                                         }
                                     }
                                     catch(NumberFormatException e){
-                                        if (movieRatingInput == "c") {
+                                        if (movieRatingInput.equals("c")) {
                                             continue MENU_OPTIONS;
                                         } else {
                                         System.out.println("that is not a valid rating (not a number), please try again");
@@ -195,12 +207,16 @@ public class Application {
                                     }
                                 }
                                 while(true);
+
 //                                break;
+
                             } else{
                                 System.out.println("Movie not found, please try again.");
                             }
                         }while(true);
+
 //                        break;
+
                     } else {
                         System.out.println("Username not found, please try again.");
                     }
