@@ -6,13 +6,10 @@ import java.util.Scanner;
 
 public class Application {
     public static void main(String[] args) {
-        // Scanner
 
         boolean keepGoing = true;
 
         String[] genreOptions = {"Action", "Animation", "Comedy", "Drama", "Fantasy", "Horror", "Thriller"};
-
-        ArrayList<Movie> movieList = new ArrayList<>();
 
         MENU_OPTIONS: do {
             Scanner reader = new Scanner(System.in);
@@ -151,8 +148,7 @@ public class Application {
                     Collections.sort(genres);
 
                     Movie movie = new Movie(movieName, releaseYear, genres);
-
-                    movieList.add(movie);
+                    Movie.movieObjectList.add(movie);
 
                     System.out.println(movie);
 
@@ -178,7 +174,7 @@ public class Application {
                             String movieTitle = reader.nextLine().trim();
                             if (movieTitle.equals("c")){
                                 continue MENU_OPTIONS;
-                            } else if(Movie.movieList.contains(movieTitle)){ // if exists movietitle object
+                            } else if(Movie.movieList.contains(movieTitle)){ // if exists movietitle
                                 RATE_MOVIE: do {
                                     System.out.println("You are rating " + movieTitle + "\nHow would you rate this movie? Enter a rating between 0.0 and 10.0. To return to main screen press c");
                                     String movieRatingInput = reader.nextLine().trim();
@@ -192,8 +188,21 @@ public class Application {
                                                     "\nTo confirm, press y. To cancel, press n. To cancel and return to main screen, press c");
                                             String rerate = reader.nextLine().trim();
                                             if(rerate.equals("y")){
-                                                // movieObject.addYesRating((float)movieRating);
-                                                // profileObject.setMyRating(movieTitle, movieRating);
+
+                                                // Add rating to movie-ratings list and calculate new mean rating for that movie
+                                                for(int i = 0; i<Movie.movieObjectList.size();i++){
+                                                    if (Movie.movieObjectList.get(i).getTitle().equals(movieTitle)){
+                                                        Movie.movieObjectList.get(i).addYesRating((float)movieRating);
+                                                    }
+                                                }
+
+                                                // Add rating for this specific movie to profile
+                                                for(int i = 0; i<Profile.profileObjectList.size();i++){
+                                                    if (Profile.profileObjectList.get(i).getUserName().equals(userName)){
+                                                        Profile.profileObjectList.get(i).setMyRating(movieTitle,(float)movieRating);
+                                                    }
+                                                }
+
                                                 System.out.println("Thank you for rating this movie!");
                                                 continue MENU_OPTIONS;
                                             } else if(rerate.equals("c")){
@@ -242,12 +251,5 @@ public class Application {
                 System.out.println("Please enter a valid option.");
             }
         } while(keepGoing);
-
-        // Add Profile
-
-        // Add Movie
-
-
-        // Add Rating
     }
 }
