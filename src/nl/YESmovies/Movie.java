@@ -5,20 +5,26 @@ import java.util.ArrayList;
 public class Movie {
     public static ArrayList<Movie> movieObjectList = new ArrayList<>();
     public static ArrayList<String> movieList = new ArrayList<>();
+    private ArrayList<Float> ratingList = new ArrayList<Float>() ;                 //all rating for one movie. moved to Movie Class
 
     public static int movieCounter = 0;
-
     private long id;
     private String title;
     private short releaseYear;
-    private ArrayList<Float> ratingList = new ArrayList<Float>() ;                 //all rating for one movie. moved to Movie Class
     private float yesRating;
     private int nrRatings;
 
     public void addYesRating(float rating) {
         ratingList.add(rating);
-        float total = nrRatings * yesRating + rating;
-        this.yesRating = total / ++nrRatings;
+        double total = 0;
+        for(float rated:ratingList){
+            total += rated;
+        }
+        this.yesRating = (float)total / ++nrRatings;
+    }
+
+    public ArrayList<Float> getRatingList(){
+        return ratingList;
     }
 
     public float getYesRating() {
