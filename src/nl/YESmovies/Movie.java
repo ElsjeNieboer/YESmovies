@@ -16,6 +16,7 @@ public class Movie {
     private short releaseYear;
     private float yesRating;
     private int nrRatings;
+    private float imdbRating;
 
     public void addYesRating(String userName, float rating) {
         ratingList.put(userName, rating);
@@ -35,11 +36,12 @@ public class Movie {
         return this.yesRating;
     }
 
-    public Movie(String title, short releaseYear, ArrayList<String> genres) {
+    public Movie(String title, short releaseYear, float imdbRating, ArrayList<String> genres) {
         this.title = title;
         this.releaseYear = releaseYear;
         this.genres = genres;
         this.id = ++movieCounter;
+        this.imdbRating = imdbRating;
         movieList.add(title);
     }
 
@@ -71,6 +73,14 @@ public class Movie {
 
     public void setGenres(ArrayList<String> genres) {
         this.genres = genres;
+    }
+
+    public float getImdbRating() {
+        return imdbRating;
+    }
+
+    public void setImdbRating(float imdbRating) {
+        this.imdbRating = imdbRating;
     }
 
     @Override

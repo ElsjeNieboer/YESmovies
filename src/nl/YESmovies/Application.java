@@ -118,6 +118,26 @@ public class Application {
 
                     ArrayList<String> genres = new ArrayList<>();
 
+                    float imdbRating = -1;
+                    IMDB_LOOP: do {
+                        System.out.println("Please enter the IMDB rating of this movie");
+                        String imdbRatingInput = reader.nextLine();
+                        try {
+                            double imdbRatingDouble = Double.parseDouble(imdbRatingInput);
+                            if (imdbRatingDouble >= 0 && imdbRatingDouble <= 10) {
+                                imdbRatingDouble = (double) Math.round(imdbRatingDouble * 10) / 10;  //round to single digit
+                                imdbRating = (float) imdbRatingDouble;
+                                break IMDB_LOOP;
+                            } else {
+                                System.out.println("please enter a number between 0 and 10");
+                            }
+                        } catch (NumberFormatException e) {
+                            System.out.println("not a number, please try again");
+                        }
+                    }while(true);
+                    //----------------------------------
+
+
                     System.out.println("Which genre(s) is the movie? Please enter the genre number(s).");
 
                     for (int i = 0; i < genreOptions.length; i++) {
@@ -146,7 +166,7 @@ public class Application {
 
                     Collections.sort(genres);
 
-                    Movie movie = new Movie(movieName, releaseYear, genres);
+                    Movie movie = new Movie(movieName, releaseYear, imdbRating, genres);
                     Movie.movieObjectList.add(movie);
 
                     System.out.println(movie);
@@ -264,6 +284,7 @@ public class Application {
                         "\nm1 Genres: " + m1.getGenres()+
                         "\nm1 Year: " + m1.getReleaseYear() +
                         "\nm1 ID: " + m1.getId() +
+                        "\nm1 IMDB rating: " + m1.getImdbRating() +
                         "\nm1 YESrating (average): " + m1.getYesRating()
                 );
 
