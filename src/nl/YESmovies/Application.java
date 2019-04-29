@@ -262,32 +262,27 @@ public class Application {
             } else if (userInput.equals("q")) {
                 keepGoing = false;
             } else if (userInput.equals("Test")){
-                Movie m1 = Movie.movieObjectList.get(0);
-                Movie m2 = Movie.movieObjectList.get(1);
-                Profile p1 = Profile.profileObjectList.get(0);
-                Profile p2 = Profile.profileObjectList.get(1);
-
+                //option print all info, all info on one movie/all info on one profile
                 System.out.println("movieList: " + Arrays.toString(Movie.movieList.toArray()));
 
-                System.out.println("m1 ratingsList: ");
+                for(Movie movie:Movie.movieObjectList){
+                    System.out.println("m1 Title: " + movie.getTitle() +
+                            "\nm1 Genres: " + movie.getGenres()+
+                            "\nm1 Year: " + movie.getReleaseYear() +
+                            "\nm1 ID: " + movie.getId() +
+                            "\nm1 IMDB rating: " + movie.getImdbRating() +
+                            "\nm1 YESrating (average): " + movie.getYesRating());
 
-                try {
-                    for(Map.Entry<String,Float> rated : m1.getRatingList().entrySet()){
+                    System.out.println("ratingsList: ");
+                    for(Map.Entry<String,Float> rated : movie.getRatingList().entrySet()){
                         System.out.println(rated.getValue() + "");
                     }
-
-                } catch(IndexOutOfBoundsException e){
-                    System.out.println("RatingList has " + m1.getRatingList().size() + "elements... Index out of bounds!");
                 }
 
-                System.out.println("m1 Title: " + m1.getTitle() +
-                        "\nm1 Genres: " + m1.getGenres()+
-                        "\nm1 Year: " + m1.getReleaseYear() +
-                        "\nm1 ID: " + m1.getId() +
-                        "\nm1 IMDB rating: " + m1.getImdbRating() +
-                        "\nm1 YESrating (average): " + m1.getYesRating()
-                );
-
+                // put this in enhanced for loop too
+                Profile p1 = Profile.profileObjectList.get(0);
+                Profile p2 = Profile.profileObjectList.get(1);
+                
                 System.out.println("profileList: " + Arrays.toString(Profile.profileList.toArray()));
 
                 System.out.println("p1 Username: " + p1.getUserName() +
