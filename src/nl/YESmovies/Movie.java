@@ -3,8 +3,9 @@ package nl.YESmovies;
 import java.util.ArrayList;
 
 public class Movie {
-    public static ArrayList<Movie> movieList = new ArrayList<>();
-    //public static ArrayList<String> movieList = new ArrayList<>();
+    public static ArrayList<Movie> movieObjectList = new ArrayList<>();
+    public static ArrayList<String> movieList = new ArrayList<>();
+
     public static int movieCounter = 0;
 
     private long id;
@@ -29,7 +30,7 @@ public class Movie {
         this.releaseYear = releaseYear;
         this.genres = genres;
         this.id = ++movieCounter;
-      //  movieList.add(title);
+        movieList.add(title);
     }
 
     private ArrayList<String> genres;

@@ -4,12 +4,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Profile {
+    public static ArrayList<Profile> profileObjectList = new ArrayList<>();
     public static ArrayList<String> profileList = new ArrayList<>();
+    private HashMap<String,Float> myRatingsList = new HashMap<String,Float>();
     private long id;
     private String userName;
     private ArrayList<String> watchedMovies;
     private int[] preferredGenres = new int[4];
-    private HashMap<String,Float> myRatingsList = new HashMap<String,Float>();       //all ratings from one profile. move to Profile Class
+
 
     public void setMyRating(String movieTitle, float ratingGiven) {
         myRatingsList.put(movieTitle,ratingGiven);
