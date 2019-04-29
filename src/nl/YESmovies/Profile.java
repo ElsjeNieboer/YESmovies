@@ -3,7 +3,7 @@ package nl.YESmovies;
 import java.util.ArrayList;
 
 public class Profile {
-    public static ArrayList<String> usernameList = new ArrayList<>();
+    public static ArrayList<String> profileList = new ArrayList<>();
     private long id;
     private String userName;
     private ArrayList<String> watchedMovies;
@@ -62,7 +62,7 @@ public class Profile {
 
     public Profile(String username) {
         this.userName = username;
-        usernameList.add(username); //Add username to the ArrayList with all usernames
-        this.id = usernameList.size(); // Generate unique id for created profile
+        profileList.add(username); //Add username to the ArrayList with all usernames
+        this.id = profileList.size(); // Generate unique id for created profile
     }
 }

@@ -26,14 +26,19 @@ public class Application {
                 // Add Profile
                 boolean retryEnterUsername = true;
                 String newUsername;
-                System.out.println("What username would you like to use?");
                 do {
+                    System.out.println("What username would you like to use?");
                     newUsername = reader.nextLine();
                     // check if username is unique
-                    if (Profile.usernameList.contains(newUsername)) {
+                    if (Profile.profileList.contains(newUsername)) {
                         System.out.println("The username you entered is already in use. Please enter a different username.");
                     } else {
+                        System.out.println("The username you entered is: '"+newUsername+"'. \nIf you are happy with this username, press 'y'. " +
+                                "If you wish to make changes, press any other key.");
+                        String usernameDone = reader.nextLine();
+                        if (usernameDone.equals("y")) {
                         retryEnterUsername = false;
+                        }
                     }
                 } while (retryEnterUsername);
                 Profile newProfile = new Profile(newUsername);
@@ -85,6 +90,10 @@ public class Application {
                         retryEnterPreferredGenres = false;
                     }
                 } while (retryEnterPreferredGenres);
+
+                System.out.println("You have successfully created a new profile with the following username: "+newProfile.getUserName()+".\n" +
+                        "You have entered the following genres as your preferred genres: "+newProfile.getPreferredGenresText()+".");
+                System.out.println("You will now return to the main menu.");
 
             } else if (userInput.equals("m")) {
 
@@ -156,6 +165,77 @@ public class Application {
 
             } else if (userInput.equals("r")) {
                 // Add Rating
+
+                do {
+                    System.out.println("To rate a movie, please enter your username. To return to main screen, press c");
+
+                    String userName = reader.nextLine().trim();
+                    if (userName.equals("c")){
+                        continue MENU_OPTIONS;
+                    } else if (Profile.profileList.contains(userName)) {
+                        do{
+                            System.out.println("You are now rating as user: " + userName + "\nWhat movie would you like to rate?, please enter the full movie title. To return to main screen press c");
+                            String movieTitle = reader.nextLine().trim();
+                            if (movieTitle.equals("c")){
+                                continue MENU_OPTIONS;
+                            } else if(Movie.movieList.contains(movieTitle)){ // if exists movietitle object
+                                RATE_MOVIE: do {
+                                    System.out.println("You are rating " + movieTitle + "\nHow would you rate this movie? Enter a rating between 0.0 and 10.0. To return to main screen press c");
+                                    String movieRatingInput = reader.nextLine().trim();
+
+                                    try{
+                                        double movieRating = Double.parseDouble(movieRatingInput);
+                                        if (movieRating >= 0 && movieRating <= 10) {
+                                            movieRating = (double) Math.round(movieRating * 10) / 10;  //round to single digit
+
+                                            System.out.println("Would you like to rate " + movieTitle + " with a " + movieRating + "?" +
+                                                    "\nTo confirm, press y. To cancel, press n. To cancel and return to main screen, press c");
+                                            String rerate = reader.nextLine().trim();
+                                            if(rerate.equals("y")){
+                                                // movieObject.addYesRating((float)movieRating);
+                                                // profileObject.setMyRating(movieTitle, movieRating);
+                                                System.out.println("Thank you for rating this movie!");
+                                                continue MENU_OPTIONS;
+                                            } else if(rerate.equals("c")){
+                                                continue MENU_OPTIONS;
+                                            } else if(rerate.equals("n")){
+                                                continue RATE_MOVIE;
+                                            } else {
+                                                System.out.println("please enter a valid option");
+                                            }
+                                        }else {
+                                            System.out.println("that is not a valid rating (not within the required range), please try again");
+                                        }
+                                    }
+                                    catch(NumberFormatException e){
+                                        if (movieRatingInput.equals("c")) {
+                                            continue MENU_OPTIONS;
+                                        } else {
+                                        System.out.println("that is not a valid rating (not a number), please try again");
+                                        }
+                                    }
+                                }
+                                while(true);
+
+//                                break;
+
+                            } else{
+                                System.out.println("Movie not found, please try again.");
+                            }
+                        }while(true);
+
+//                        break;
+
+                    } else {
+                        System.out.println("Username not found, please try again.");
+                    }
+
+                }while(true);
+
+
+
+
+
             } else if (userInput.equals("q")){
                 keepGoing = false;
             } else {
