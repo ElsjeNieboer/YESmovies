@@ -25,15 +25,18 @@ public class Movie {
         return this.yesRating;
     }
 
-    public Movie(String title, short releaseYear, ArrayList<String> genres) {
+    public Movie(String title, short releaseYear) {
         this.title = title;
         this.releaseYear = releaseYear;
-        this.genres = genres;
         this.id = ++movieCounter;
         movieList.add(title);
     }
 
-    private ArrayList<String> genres;
+    private String[] genresString = {"Action", "Adventure", "Animation", "Biography", "Comedy", "Crime", "Documentary",
+            "Drama", "Family", "Fantasy", "Film Noir", "History", "Horror", "Music", "Musical", "Mystery", "Romance",
+            "Sci-Fi", "Short", "Sport", "Superhero", "Thriller", "War", "Western"};
+
+    private int[] genreInt = new int[genresString.length];
 
     public long getId() {
         return id;
@@ -55,12 +58,26 @@ public class Movie {
         this.releaseYear = releaseYear;
     }
 
-    public ArrayList<String> getGenres() {
-        return genres;
+    public int[] getGenreInt() {
+        return genreInt;
     }
 
-    public void setGenres(ArrayList<String> genres) {
-        this.genres = genres;
+    public void addGenre(int index) {
+        this.genreInt[index] = 1;
+    }
+
+    public void removeGenre(int index) {
+        this.genreInt[index] = 0;
+    }
+
+    public String getGenreString(){
+        String movieGenre = "";
+        for (int i = 0; i < genresString.length; i++){
+            if(genreInt[i] == 1){
+                movieGenre += genresString[i]+" ";
+            }
+        }
+        return movieGenre;
     }
 
     @Override
@@ -69,7 +86,7 @@ public class Movie {
                 "id=" + id +
                 ", title='" + title + '\'' +
                 ", releaseYear=" + releaseYear +
-                ", genres=" + genres +
+                ", genres=" + this.getGenreString() +
                 '}';
     }
 }
