@@ -1,8 +1,6 @@
 package nl.YESmovies;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Scanner;
+import java.util.*;
 
 public class Application {
     public static void main(String[] args) {
@@ -41,6 +39,7 @@ public class Application {
                     }
                 } while (retryEnterUsername);
                 Profile newProfile = new Profile(newUsername);
+                Profile.profileObjectList.add(newProfile);
 
                 // adding/removing genres to/from the int[] preferred genres
                 System.out.println("Thank you for entering a unique username.");
@@ -125,6 +124,26 @@ public class Application {
 
                     ArrayList<String> genres = new ArrayList<>();
 
+                    float imdbRating = -1;
+                    IMDB_LOOP: do {
+                        System.out.println("Please enter the IMDB rating of this movie");
+                        String imdbRatingInput = reader.nextLine();
+                        try {
+                            double imdbRatingDouble = Double.parseDouble(imdbRatingInput);
+                            if (imdbRatingDouble >= 0 && imdbRatingDouble <= 10) {
+                                imdbRatingDouble = (double) Math.round(imdbRatingDouble * 10) / 10;  //round to single digit
+                                imdbRating = (float) imdbRatingDouble;
+                                break IMDB_LOOP;
+                            } else {
+                                System.out.println("please enter a number between 0 and 10");
+                            }
+                        } catch (NumberFormatException e) {
+                            System.out.println("not a number, please try again");
+                        }
+                    }while(true);
+                    //----------------------------------
+
+
                     System.out.println("Which genre(s) is the movie? Please enter the genre number(s).");
 
                     for (int i = 0; i < genreOptions.length; i++) {
@@ -153,7 +172,7 @@ public class Application {
 
                     Collections.sort(genres);
 
-                    Movie movie = new Movie(movieName, releaseYear, genres);
+                    Movie movie = new Movie(movieName, releaseYear, imdbRating, genres);
                     Movie.movieObjectList.add(movie);
 
                     System.out.println(movie);
@@ -198,7 +217,7 @@ public class Application {
                                                 // Add rating to movie-ratings list and calculate new mean rating for that movie
                                                 for(int i = 0; i<Movie.movieObjectList.size();i++){
                                                     if (Movie.movieObjectList.get(i).getTitle().equals(movieTitle)){
-                                                        Movie.movieObjectList.get(i).addYesRating((float)movieRating);
+                                                        Movie.movieObjectList.get(i).addYesRating(userName,(float)movieRating);
                                                     }
                                                 }
 
@@ -242,13 +261,47 @@ public class Application {
                     }
 
                 }while(true);
-
-
-
-
-
-            } else if (userInput.equals("q")){
+            } else if (userInput.equals("q")) {
                 keepGoing = false;
+            } else if (userInput.equals("Test")){
+                Movie m1 = Movie.movieObjectList.get(0);
+                Movie m2 = Movie.movieObjectList.get(1);
+                Profile p1 = Profile.profileObjectList.get(0);
+                Profile p2 = Profile.profileObjectList.get(1);
+
+                System.out.println("movieList: " + Arrays.toString(Movie.movieList.toArray()));
+
+                System.out.println("m1 ratingsList: ");
+
+                try {
+                    for(Map.Entry<String,Float> rated : m1.getRatingList().entrySet()){
+                        System.out.println(rated.getValue() + "");
+                    }
+
+                } catch(IndexOutOfBoundsException e){
+                    System.out.println("RatingList has " + m1.getRatingList().size() + "elements... Index out of bounds!");
+                }
+
+                System.out.println("m1 Title: " + m1.getTitle() +
+                        "\nm1 Genres: " + m1.getGenres()+
+                        "\nm1 Year: " + m1.getReleaseYear() +
+                        "\nm1 ID: " + m1.getId() +
+                        "\nm1 IMDB rating: " + m1.getImdbRating() +
+                        "\nm1 YESrating (average): " + m1.getYesRating()
+                );
+
+                System.out.println("profileList: " + Arrays.toString(Profile.profileList.toArray()));
+
+//                System.out.println("p1 Username: " + p1.getUserName() +
+//                        "\np1 Preferred Genres: " + p1.getPreferredGenresText() +
+//                        "\np1 Preferred Genres (array): " + p1.getPreferredGenresArray() +
+//                        "\np1 Watched movies: " + p1.getWatchedMovies() +
+//                        "\np1 Id: " +p1.getId());
+
+                p1.getMyRating("m1");
+                p1.getMyRating("m2");
+
+
             } else {
                 System.out.println("Please enter a valid option.");
             }

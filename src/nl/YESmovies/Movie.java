@@ -1,35 +1,47 @@
 package nl.YESmovies;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Movie {
     public static ArrayList<Movie> movieObjectList = new ArrayList<>();
     public static ArrayList<String> movieList = new ArrayList<>();
+    //private ArrayList<Float> ratingList = new ArrayList<Float>() ;                 //all rating for one movie. moved to Movie Class
+    private HashMap<String,Float> ratingList = new HashMap<String, Float>();
 
     public static int movieCounter = 0;
-
     private long id;
     private String title;
     private short releaseYear;
-    private ArrayList<Float> ratingList = new ArrayList<Float>() ;                 //all rating for one movie. moved to Movie Class
     private float yesRating;
     private int nrRatings;
+    private float imdbRating;
 
-    public void addYesRating(float rating) {
-        ratingList.add(rating);
-        float total = nrRatings * yesRating + rating;
-        this.yesRating = total / ++nrRatings;
+    public void addYesRating(String userName, float rating) {
+        ratingList.put(userName, rating);
+        double total = 0;
+        for(Map.Entry<String, Float> rated : ratingList.entrySet()){
+            total += rated.getValue();
+        }
+        this.nrRatings = ratingList.size();
+        this.yesRating = (float)total / nrRatings;
+    }
+
+    public HashMap<String,Float> getRatingList(){
+        return ratingList;
     }
 
     public float getYesRating() {
         return this.yesRating;
     }
 
-    public Movie(String title, short releaseYear, ArrayList<String> genres) {
+    public Movie(String title, short releaseYear, float imdbRating, ArrayList<String> genres) {
         this.title = title;
         this.releaseYear = releaseYear;
         this.genres = genres;
         this.id = ++movieCounter;
+        this.imdbRating = imdbRating;
         movieList.add(title);
     }
 
@@ -61,6 +73,14 @@ public class Movie {
 
     public void setGenres(ArrayList<String> genres) {
         this.genres = genres;
+    }
+
+    public float getImdbRating() {
+        return imdbRating;
+    }
+
+    public void setImdbRating(float imdbRating) {
+        this.imdbRating = imdbRating;
     }
 
     @Override
