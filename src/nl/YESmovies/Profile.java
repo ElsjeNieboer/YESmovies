@@ -31,7 +31,7 @@ public class Profile {
                 //or just show a selection of movies you rated
             }
         }
-        System.out.println("you gave " + movieTitle + "a rating of myRatingsList.get(movieTitle)");
+        System.out.println("you gave " + movieTitle + " a rating of " + myRatingsList.get(movieTitle));
         return myRatingsList.get(movieTitle);
     }
 

@@ -1,11 +1,14 @@
 package nl.YESmovies;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Movie {
     public static ArrayList<Movie> movieObjectList = new ArrayList<>();
     public static ArrayList<String> movieList = new ArrayList<>();
-    private ArrayList<Float> ratingList = new ArrayList<Float>() ;                 //all rating for one movie. moved to Movie Class
+    //private ArrayList<Float> ratingList = new ArrayList<Float>() ;                 //all rating for one movie. moved to Movie Class
+    private HashMap<String,Float> ratingList = new HashMap<String, Float>();
 
     public static int movieCounter = 0;
     private long id;
@@ -14,16 +17,17 @@ public class Movie {
     private float yesRating;
     private int nrRatings;
 
-    public void addYesRating(float rating) {
-        ratingList.add(rating);
+    public void addYesRating(String userName, float rating) {
+        ratingList.put(userName, rating);
         double total = 0;
-        for(float rated:ratingList){
-            total += rated;
+        for(Map.Entry<String, Float> rated : ratingList.entrySet()){
+            total += rated.getValue();
         }
-        this.yesRating = (float)total / ++nrRatings;
+        this.nrRatings = ratingList.size();
+        this.yesRating = (float)total / nrRatings;
     }
 
-    public ArrayList<Float> getRatingList(){
+    public HashMap<String,Float> getRatingList(){
         return ratingList;
     }
 

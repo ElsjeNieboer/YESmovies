@@ -1,9 +1,6 @@
 package nl.YESmovies;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Scanner;
+import java.util.*;
 
 public class Application {
     public static void main(String[] args) {
@@ -194,7 +191,7 @@ public class Application {
                                                 // Add rating to movie-ratings list and calculate new mean rating for that movie
                                                 for(int i = 0; i<Movie.movieObjectList.size();i++){
                                                     if (Movie.movieObjectList.get(i).getTitle().equals(movieTitle)){
-                                                        Movie.movieObjectList.get(i).addYesRating((float)movieRating);
+                                                        Movie.movieObjectList.get(i).addYesRating(userName,(float)movieRating);
                                                     }
                                                 }
 
@@ -255,11 +252,12 @@ public class Application {
                 System.out.println("m1 ratingsList: ");
 
                 try {
-                    for (float rating : m1.getRatingList()) {
-                        System.out.println(rating + ",");
+                    for(Map.Entry<String,Float> rated : m1.getRatingList().entrySet()){
+                        System.out.println(rated.getValue() + "");
                     }
+
                 } catch(IndexOutOfBoundsException e){
-                    System.out.println("RatingList has " + m1.getRatingList().size() + "elements... IooBE!");
+                    System.out.println("RatingList has " + m1.getRatingList().size() + "elements... Index out of bounds!");
                 }
 
                 System.out.println("m1 Title: " + m1.getTitle() +
@@ -276,8 +274,9 @@ public class Application {
                         "\np1 Preferred Genres (array): " + p1.getPreferredGenresArray() +
                         "\np1 Watched movies: " + p1.getWatchedMovies() +
                         "\np1 Id: " +p1.getId());
-                System.out.println("\np1 Rating of m1 : " + p1.getMyRating("m1"));
-                System.out.println("\np1 Rating of m2 : " + p1.getMyRating("m2"));
+
+                p1.getMyRating("m1");
+                p1.getMyRating("m2");
 
 
             } else {
