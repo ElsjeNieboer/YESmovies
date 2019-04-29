@@ -3,20 +3,33 @@ package nl.YESmovies;
 import java.util.ArrayList;
 
 public class Movie {
-    public static ArrayList<String> movieList = new ArrayList<>();
-
+    public static ArrayList<Movie> movieList = new ArrayList<>();
+    //public static ArrayList<String> movieList = new ArrayList<>();
     public static int movieCounter = 0;
 
     private long id;
     private String title;
     private short releaseYear;
+    private ArrayList<Float> ratingList = new ArrayList<Float>() ;                 //all rating for one movie. moved to Movie Class
+    private float yesRating;
+    private int nrRatings;
+
+    public void addYesRating(float rating) {
+        ratingList.add(rating);
+        float total = nrRatings * yesRating + rating;
+        this.yesRating = total / ++nrRatings;
+    }
+
+    public float getYesRating() {
+        return this.yesRating;
+    }
 
     public Movie(String title, short releaseYear, ArrayList<String> genres) {
         this.title = title;
         this.releaseYear = releaseYear;
         this.genres = genres;
         this.id = ++movieCounter;
-        movieList.add(title);
+      //  movieList.add(title);
     }
 
     private ArrayList<String> genres;

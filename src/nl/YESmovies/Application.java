@@ -6,13 +6,10 @@ import java.util.Scanner;
 
 public class Application {
     public static void main(String[] args) {
-        // Scanner
 
         boolean keepGoing = true;
 
         String[] genreOptions = {"Action", "Animation", "Comedy", "Drama", "Fantasy", "Horror", "Thriller"};
-
-        ArrayList<Movie> movieList = new ArrayList<>();
 
         MENU_OPTIONS: do {
             Scanner reader = new Scanner(System.in);
@@ -152,7 +149,7 @@ public class Application {
 
                     Movie movie = new Movie(movieName, releaseYear, genres);
 
-                    movieList.add(movie);
+                    Movie.movieList.add(movie);
 
                     System.out.println(movie);
 
@@ -243,11 +240,9 @@ public class Application {
             }
         } while(keepGoing);
 
-        // Add Profile
+        for(Movie movie:Movie.movieList){
+            System.out.println(movie);
+        }
 
-        // Add Movie
-
-
-        // Add Rating
     }
 }
