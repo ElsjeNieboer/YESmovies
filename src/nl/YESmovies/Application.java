@@ -122,7 +122,6 @@ public class Application {
                         }
                     } while (!enteredValidReleaseYear);
 
-                    ArrayList<String> genres = new ArrayList<>();
 
                     float imdbRating = -1;
                     IMDB_LOOP: do {
@@ -141,15 +140,17 @@ public class Application {
                             System.out.println("not a number, please try again");
                         }
                     }while(true);
-                    //----------------------------------
 
+                    Movie movie = new Movie(movieName, releaseYear, imdbRating);
 
                     System.out.println("Which genre(s) is the movie? Please enter the genre number(s).");
 
                     for (int i = 0; i < genreOptions.length; i++) {
-                        System.out.print(genreOptions[i] + "(" + (i + 1) + ") ");
+                        System.out.print(genreOptions[i] + "(" + (i + 1) + ")  ");
+                        if((i+1) % 12 == 0){
+                            System.out.println();
                         }
-
+                        }
                     System.out.println();
 
                     boolean enteredValidGenre;
@@ -160,19 +161,23 @@ public class Application {
                         String genreInput = reader.nextLine();
 
                         try {
-                            for (int i = 0; i < genreInput.length(); i++) {
-                                genres.add(genreOptions[(Character.getNumericValue(genreInput.charAt(i)) - 1)]);
+                            while (genreInput.contains(",")) {
+                                String genreInput_a = genreInput.substring(0, genreInput.indexOf(","));
+                                movie.addGenre(Integer.parseInt(genreInput_a.trim()) - 1);
+                                genreInput = genreInput.substring(genreInput.indexOf(",") + 1);
                             }
+
+                            movie.addGenre(Integer.parseInt(genreInput.trim()) - 1);
+
                         } catch (ArrayIndexOutOfBoundsException e){
                             System.out.println("You have entered an invalid genre number, please enter a valid genre number.");
 
                             enteredValidGenre = false;
+                        } catch (NumberFormatException e){
+
                         }
                     } while (!enteredValidGenre);
-
-                    Collections.sort(genres);
-
-                    Movie movie = new Movie(movieName, releaseYear, imdbRating, genres);
+                    
                     Movie.movieObjectList.add(movie);
 
                     System.out.println(movie);
@@ -283,7 +288,7 @@ public class Application {
                 }
 
                 System.out.println("m1 Title: " + m1.getTitle() +
-                        "\nm1 Genres: " + m1.getGenres()+
+                        "\nm1 Genres: " + m1.getGenreString()+
                         "\nm1 Year: " + m1.getReleaseYear() +
                         "\nm1 ID: " + m1.getId() +
                         "\nm1 IMDB rating: " + m1.getImdbRating() +
