@@ -10,7 +10,10 @@ public class Profile {
     private long id;
     private String userName;
     private ArrayList<String> watchedMovies;
-    private int[] preferredGenres = new int[4];
+    private String[] preferredGenresString = {"Action", "Adventure", "Animation", "Biography", "Comedy", "Crime", "Documentary",
+            "Drama", "Family", "Fantasy", "Film Noir", "History", "Horror", "Music", "Musical", "Mystery", "Romance",
+            "Sci-Fi", "Short", "Sport", "Superhero", "Thriller", "War", "Western"};
+    private int[] preferredGenresInt = new int[preferredGenresString.length];
 
 
     public void setMyRating(String movieTitle, float ratingGiven) {
@@ -61,38 +64,31 @@ public class Profile {
 
     //Traditional getter
     public int[] getPreferredGenresArray() {
-        return this.preferredGenres;
+        return this.preferredGenresInt;
     }
 
     //Getter that displays the preferred genres in text form
     public String getPreferredGenresText() {
-        String outputPreferredGenres = "";
-        if (this.preferredGenres[0] == 1) {
-            outputPreferredGenres += " Action";
+        String output = "";
+        for (int i = 0; i < preferredGenresInt.length; i++) {
+            if (preferredGenresInt[i] == 1) {
+               output += preferredGenresString[i]+" ";
+            }
         }
-        if (this.preferredGenres[1] == 1) {
-            outputPreferredGenres += " Drama";
-        }
-        if (this.preferredGenres[2] == 1) {
-            outputPreferredGenres += " Horror";
-        }
-        if (this.preferredGenres[3] == 1) {
-            outputPreferredGenres += " Fantasy";
-        }
-        return outputPreferredGenres;
+        return output;
     }
 
     public void addPreferredGenres(int index) {
-        this.preferredGenres[index] = 1;
+        this.preferredGenresInt[index] = 1;
     }
 
     public void removePreferredGenres(int index) {
-        this.preferredGenres[index] = 0;
+        this.preferredGenresInt[index] = 0;
     }
 
     public Profile(String username) {
         this.userName = username;
         profileList.add(username); //Add username to the ArrayList with all usernames
-        this.id = profileList.size(); // Generate unique id for created profile
+        profileObjectList.add(this);
     }
 }

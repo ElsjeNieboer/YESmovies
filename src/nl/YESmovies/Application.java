@@ -7,7 +7,9 @@ public class Application {
 
         boolean keepGoing = true;
 
-        String[] genreOptions = {"Action", "Animation", "Comedy", "Drama", "Fantasy", "Horror", "Thriller"};
+        String[] genreOptions = {"Action", "Adventure", "Animation", "Biography", "Comedy", "Crime", "Documentary",
+                "Drama", "Family", "Fantasy", "Film Noir", "History", "Horror", "Music", "Musical", "Mystery", "Romance",
+                "Sci-Fi", "Short", "Sport", "Superhero", "Thriller", "War", "Western"};
 
         MENU_OPTIONS: do {
             Scanner reader = new Scanner(System.in);
@@ -39,56 +41,60 @@ public class Application {
                 Profile newProfile = new Profile(newUsername);
                 Profile.profileObjectList.add(newProfile);
 
-                // adding/removing genres to/from the int[] preferred genres, where index 0 = action, 1 = drama, 2 = horror, and 3 = fantasy
+                // adding/removing genres to/from the int[] preferred genres
                 System.out.println("Thank you for entering a unique username.");
                 boolean retryEnterPreferredGenres = true;
                 do {
-                    System.out.println("Please enter your preferred movie genres to proceed by selecting the numbers indicated in the list below. \n" +
-                            "If you would like to remove genres from your preferences, enter the same number with a '-' in front of it. \n " +
-                            "Selectable genres: 1: Action, 2: Drama, 3: Horror, 4: Fantasy");
+                    System.out.println("Please enter your preferred movie genres to proceed by selecting the numbers indicated in the list below, separated by commas. \n" +
+                            "If you would like to remove genres from your preferences, enter the same number with a '-' in front of it.");
+                    for (int i =0; i < genreOptions.length; i++) {
+                        if ((i+1)%12 == 0) {
+                            System.out.println(genreOptions[i]+"("+(i+1)+")     ");
+                        } else {
+                            System.out.print(genreOptions[i] + "(" + (i + 1) + ")     ");
+                        }
+                    }
+                    System.out.println();
                     String chosenPreferredGenres = reader.nextLine();
-                    if (chosenPreferredGenres.contains("1") && chosenPreferredGenres.indexOf('1') == 0) {
-                        newProfile.addPreferredGenres(0);
-                    } else if (chosenPreferredGenres.contains("1") && chosenPreferredGenres.charAt(chosenPreferredGenres.indexOf('1')-1) != '-') {
-                        newProfile.addPreferredGenres(0);
+
+                    try {
+                        while (chosenPreferredGenres.contains(",")) {
+                            String chosenPreferredGenres_a = chosenPreferredGenres.substring(0, chosenPreferredGenres.indexOf(","));
+                            if (chosenPreferredGenres_a.charAt(0) == '-') {
+                                String chosenPreferredGenres_1 = chosenPreferredGenres_a.substring(1);
+                                newProfile.removePreferredGenres(Integer.parseInt(chosenPreferredGenres_1) - 1);
+                            } else {
+                                newProfile.addPreferredGenres(Integer.parseInt(chosenPreferredGenres_a) - 1);
+                            }
+                            chosenPreferredGenres = chosenPreferredGenres.substring(chosenPreferredGenres.indexOf(",") + 1);
+                        }
+                        if (chosenPreferredGenres.charAt(0) == '-') {
+                            String chosenPreferredGenres_1 = chosenPreferredGenres.substring(1);
+                            newProfile.removePreferredGenres(Integer.parseInt(chosenPreferredGenres_1) - 1);
+                        } else {
+                            newProfile.addPreferredGenres(Integer.parseInt(chosenPreferredGenres) - 1);
+                        }
                     }
-                    if (chosenPreferredGenres.contains("2") && chosenPreferredGenres.indexOf('2') == 0) {
-                        newProfile.addPreferredGenres(1);
-                    } else if (chosenPreferredGenres.contains("2") && chosenPreferredGenres.charAt(chosenPreferredGenres.indexOf('2')-1) != '-') {
-                        newProfile.addPreferredGenres(1);
+                    catch (NumberFormatException nfe) {
+                        System.out.println("You have entered an invalid genre number. Please select a number from the list.");
                     }
-                    if (chosenPreferredGenres.contains("3") && chosenPreferredGenres.indexOf('3') == 0) {
-                        newProfile.addPreferredGenres(2);
-                    } else if (chosenPreferredGenres.contains("3") && chosenPreferredGenres.charAt(chosenPreferredGenres.indexOf('3')-1) != '-') {
-                        newProfile.addPreferredGenres(2);
+                    catch (ArrayIndexOutOfBoundsException aioobe) {
+                        System.out.println("You have entered an invalid genre number. Please select a number from the list.");
                     }
-                    if (chosenPreferredGenres.contains("4") && chosenPreferredGenres.indexOf('4') == 0) {
-                        newProfile.addPreferredGenres(3);
-                    } else if (chosenPreferredGenres.contains("4") && chosenPreferredGenres.charAt(chosenPreferredGenres.indexOf('4')-1) != '-') {
-                        newProfile.addPreferredGenres(3);
-                    }
-                    if (chosenPreferredGenres.contains("-1")) {
-                        newProfile.removePreferredGenres(0);
-                    }
-                    if (chosenPreferredGenres.contains("-2")) {
-                        newProfile.removePreferredGenres(1);
-                    }
-                    if (chosenPreferredGenres.contains("-3")) {
-                        newProfile.removePreferredGenres(2);
-                    }
-                    if (chosenPreferredGenres.contains("-4")) {
-                        newProfile.removePreferredGenres(3);
-                    }
-                    System.out.println("The genres you have chosen are: "+ newProfile.getPreferredGenresText()+". \n " +
-                            "If you are happy with your selection, press 'y'. If you would like to edit your genre selection, press any other key.");
+
+                    System.out.print("The genres you have chosen are: ");
+                    newProfile.getPreferredGenresText();
+                    System.out.println();
+                    System.out.println("If you are happy with your selection, press 'y'. If you would like to edit your genre selection, press any other key.");
                     String changeRetryEnterPreferredGenres = reader.nextLine();
                     if (changeRetryEnterPreferredGenres.equals("y")) {
                         retryEnterPreferredGenres = false;
                     }
                 } while (retryEnterPreferredGenres);
 
-                System.out.println("You have successfully created a new profile with the following username: "+newProfile.getUserName()+".\n" +
-                        "You have entered the following genres as your preferred genres: "+newProfile.getPreferredGenresText()+".");
+                System.out.println("You have successfully created a new profile with the following username: "+newProfile.getUserName()+".");
+                System.out.print("You have entered the following genres as your preferred genres: ");
+                newProfile.getPreferredGenresText();
                 System.out.println("You will now return to the main menu.");
 
             } else if (userInput.equals("m")) {
@@ -116,7 +122,6 @@ public class Application {
                         }
                     } while (!enteredValidReleaseYear);
 
-                    ArrayList<String> genres = new ArrayList<>();
 
                     float imdbRating = -1;
                     IMDB_LOOP: do {
@@ -135,15 +140,17 @@ public class Application {
                             System.out.println("not a number, please try again");
                         }
                     }while(true);
-                    //----------------------------------
 
+                    Movie movie = new Movie(movieName, releaseYear, imdbRating);
 
                     System.out.println("Which genre(s) is the movie? Please enter the genre number(s).");
 
                     for (int i = 0; i < genreOptions.length; i++) {
-                        System.out.print(genreOptions[i] + "(" + (i + 1) + ") ");
+                        System.out.print(genreOptions[i] + "(" + (i + 1) + ")  ");
+                        if((i+1) % 12 == 0){
+                            System.out.println();
                         }
-
+                        }
                     System.out.println();
 
                     boolean enteredValidGenre;
@@ -154,24 +161,35 @@ public class Application {
                         String genreInput = reader.nextLine();
 
                         try {
-                            for (int i = 0; i < genreInput.length(); i++) {
-                                genres.add(genreOptions[(Character.getNumericValue(genreInput.charAt(i)) - 1)]);
+                            while (genreInput.contains(",")) {
+                                String genreInput_a = genreInput.substring(0, genreInput.indexOf(","));
+                                movie.addGenre(Integer.parseInt(genreInput_a.trim()) - 1);
+                                genreInput = genreInput.substring(genreInput.indexOf(",") + 1);
                             }
+
+                            movie.addGenre(Integer.parseInt(genreInput.trim()) - 1);
+
                         } catch (ArrayIndexOutOfBoundsException e){
                             System.out.println("You have entered an invalid genre number, please enter a valid genre number.");
 
                             enteredValidGenre = false;
-                        }
+                        } catch (NumberFormatException e){
+
+                        }/* finally {
+                            System.out.println("The chosen genres are "+ movie.getGenreString());
+                            System.out.println("If you are content with the chosen genres, press 'y', if not press any other key.");
+                            userInput = reader.nextLine();
+                            if(!reader.nextLine().equals("y"){
+                                enteredValidGenre = false;
+                            }
+                        }*/
                     } while (!enteredValidGenre);
 
-                    Collections.sort(genres);
-
-                    Movie movie = new Movie(movieName, releaseYear, imdbRating, genres);
                     Movie.movieObjectList.add(movie);
 
                     System.out.println(movie);
 
-                    System.out.println("If you want to add another movie, press 'y', if not press any key.");
+                    System.out.println("If you want to add another movie, press 'y', if not press any other key.");
 
                     if (!reader.nextLine().equals("y")){
                         addMovie = false;
@@ -245,14 +263,10 @@ public class Application {
                                 }
                                 while(true);
 
-//                                break;
-
                             } else{
                                 System.out.println("Movie not found, please try again.");
                             }
                         }while(true);
-
-//                        break;
 
                     } else {
                         System.out.println("Username not found, please try again.");
@@ -281,7 +295,7 @@ public class Application {
                                         available = true;
 
                                         System.out.println("m1 Title: " + movie.getTitle() +
-                                                "\nm1 Genres: " + movie.getGenres() +
+                                                "\nm1 Genres: " + movie.getGenreString() +
                                                 "\nm1 Year: " + movie.getReleaseYear() +
                                                 "\nm1 ID: " + movie.getId() +
                                                 "\nm1 IMDB rating: " + movie.getImdbRating() +
@@ -301,20 +315,38 @@ public class Application {
                                 System.out.println("movie with the given name not found in movieList");
                             }
 
+
                         } else if (entry.trim().charAt(0) == 'p') {
                             if (Profile.profileList.contains(entry.substring(1).trim())) {
                                 boolean available = false;
+
+//                System.out.println("m1 Title: " + m1.getTitle() +
+//                        "\nm1 Genres: " + m1.getGenreString()+
+//                        "\nm1 Year: " + m1.getReleaseYear() +
+//                        "\nm1 ID: " + m1.getId() +
+//                        "\nm1 IMDB rating: " + m1.getImdbRating() +
+//                        "\nm1 YESrating (average): " + m1.getYesRating()
+//                );
+
 
                                 for (int i = 0; i< Profile.profileObjectList.size();i++){
                                     if(Profile.profileObjectList.get(i).getUserName().equals(entry.substring(1).trim())){
                                         Profile profile = Profile.profileObjectList.get(i); //adjust
                                         available = true;
 
+
                                         System.out.println("p1 Username: " + profile.getUserName() +
                                                 "\np1 Preferred Genres: " + profile.getPreferredGenresText() +
                                                 "\np1 Preferred Genres (array): " + profile.getPreferredGenresArray() +
                                                 "\np1 Watched movies: " + profile.getWatchedMovies() +
                                                 "\np1 Id: " + profile.getId());
+
+//                System.out.println("p1 Username: " + p1.getUserName() +
+//                        "\np1 Preferred Genres: " + p1.getPreferredGenresText() +
+//                        "\np1 Preferred Genres (array): " + p1.getPreferredGenresArray() +
+//                        "\np1 Watched movies: " + p1.getWatchedMovies() +
+//                        "\np1 Id: " +p1.getId());
+
 
                                         System.out.println("p1 rated movies: ");
                                         for (Map.Entry<String, Float> rating : profile.getMyRatingsList().entrySet()) {
@@ -335,7 +367,7 @@ public class Application {
                         } else if (entry.trim().equals("all m")) {
                             for (Movie movie : Movie.movieObjectList) {
                                 System.out.println("m1 Title: " + movie.getTitle() +
-                                        "\nm1 Genres: " + movie.getGenres() +
+                                        "\nm1 Genres: " + movie.getGenreString() +
                                         "\nm1 Year: " + movie.getReleaseYear() +
                                         "\nm1 ID: " + movie.getId() +
                                         "\nm1 IMDB rating: " + movie.getImdbRating() +
