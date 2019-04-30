@@ -10,10 +10,8 @@ public class Profile {
     private long id;
     private String userName;
     private ArrayList<String> watchedMovies;
-    private String[] preferredGenresString = {"Action", "Adventure", "Animation", "Biography", "Comedy", "Crime", "Documentary",
-            "Drama", "Family", "Fantasy", "Film Noir", "History", "Horror", "Music", "Musical", "Mystery", "Romance",
-            "Sci-Fi", "Short", "Sport", "Superhero", "Thriller", "War", "Western"};
-    private int[] preferredGenresInt = new int[preferredGenresString.length];
+
+    private int[] preferredGenresInt = new int[Movie.genresString.length];
 
 
     public void setMyRating(String movieTitle, float ratingGiven) {
@@ -68,7 +66,7 @@ public class Profile {
     public void getPreferredGenresText() {
         for (int i = 0; i < preferredGenresInt.length; i++) {
             if (preferredGenresInt[i] == 1) {
-                System.out.print(preferredGenresString[i]+" ");
+                System.out.print(Movie.genresString[i]+" ");
             }
         }
     }

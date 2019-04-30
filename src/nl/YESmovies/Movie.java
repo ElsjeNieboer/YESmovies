@@ -35,7 +35,7 @@ public class Movie {
     public float getYesRating() {
         return this.yesRating;
     }
-    
+
     public Movie(String title, short releaseYear, float imdbRating) {
         this.title = title;
         this.releaseYear = releaseYear;
@@ -44,7 +44,7 @@ public class Movie {
         movieList.add(title);
     }
 
-    private String[] genresString = {"Action", "Adventure", "Animation", "Biography", "Comedy", "Crime", "Documentary",
+    public static String[] genresString = {"Action", "Adventure", "Animation", "Biography", "Comedy", "Crime", "Documentary",
             "Drama", "Family", "Fantasy", "Film Noir", "History", "Horror", "Music", "Musical", "Mystery", "Romance",
             "Sci-Fi", "Short", "Sport", "Superhero", "Thriller", "War", "Western"};
 

@@ -7,10 +7,6 @@ public class Application {
 
         boolean keepGoing = true;
 
-        String[] genreOptions = {"Action", "Adventure", "Animation", "Biography", "Comedy", "Crime", "Documentary",
-                "Drama", "Family", "Fantasy", "Film Noir", "History", "Horror", "Music", "Musical", "Mystery", "Romance",
-                "Sci-Fi", "Short", "Sport", "Superhero", "Thriller", "War", "Western"};
-
         MENU_OPTIONS: do {
             Scanner reader = new Scanner(System.in);
 
@@ -47,11 +43,11 @@ public class Application {
                 do {
                     System.out.println("Please enter your preferred movie genres to proceed by selecting the numbers indicated in the list below, separated by commas. \n" +
                             "If you would like to remove genres from your preferences, enter the same number with a '-' in front of it.");
-                    for (int i =0; i < genreOptions.length; i++) {
+                    for (int i =0; i < Movie.genresString.length; i++) {
                         if ((i+1)%12 == 0) {
-                            System.out.println(genreOptions[i]+"("+(i+1)+")     ");
+                            System.out.println(Movie.genresString[i]+"("+(i+1)+")     ");
                         } else {
-                            System.out.print(genreOptions[i] + "(" + (i + 1) + ")     ");
+                            System.out.print(Movie.genresString[i] + "(" + (i + 1) + ")     ");
                         }
                     }
                     System.out.println();
@@ -143,20 +139,22 @@ public class Application {
 
                     Movie movie = new Movie(movieName, releaseYear, imdbRating);
 
-                    System.out.println("Which genre(s) is the movie? Please enter the genre number(s).");
 
-                    for (int i = 0; i < genreOptions.length; i++) {
-                        System.out.print(genreOptions[i] + "(" + (i + 1) + ")  ");
-                        if((i+1) % 12 == 0){
-                            System.out.println();
-                        }
-                        }
-                    System.out.println();
 
                     boolean enteredValidGenre;
 
                     do {
                         enteredValidGenre = true;
+
+                        System.out.println("Which genre(s) is the movie? Please enter the genre number(s).");
+
+                        for (int i = 0; i < Movie.genresString.length; i++) {
+                            System.out.print(Movie.genresString[i] + "(" + (i + 1) + ")  ");
+                            if((i+1) % 12 == 0){
+                                System.out.println();
+                            }
+                        }
+                        System.out.println();
 
                         String genreInput = reader.nextLine();
 
@@ -175,14 +173,14 @@ public class Application {
                             enteredValidGenre = false;
                         } catch (NumberFormatException e){
 
-                        }/* finally {
-                            System.out.println("The chosen genres are "+ movie.getGenreString());
+                        } finally {
+                            System.out.println("The chosen genres are " + movie.getGenreString());
                             System.out.println("If you are content with the chosen genres, press 'y', if not press any other key.");
-                            userInput = reader.nextLine();
-                            if(!reader.nextLine().equals("y"){
+                            if (!reader.nextLine().equals("y")) {
                                 enteredValidGenre = false;
                             }
-                        }*/
+                        }
+
                     } while (!enteredValidGenre);
 
                     Movie.movieObjectList.add(movie);
