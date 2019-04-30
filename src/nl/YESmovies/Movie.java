@@ -35,11 +35,8 @@ public class Movie {
     public float getYesRating() {
         return this.yesRating;
     }
-
-//<<<<<<< HEAD
+    
     public Movie(String title, short releaseYear, float imdbRating) {
-//=======
-//>>>>>>> 88d040b8bee4c8cd0e0ad582e39f4e6cab4552bd
         this.title = title;
         this.releaseYear = releaseYear;
         this.id = ++movieCounter;

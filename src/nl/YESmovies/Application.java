@@ -173,7 +173,7 @@ public class Application {
 
                         }
                     } while (!enteredValidGenre);
-                    
+
                     Movie.movieObjectList.add(movie);
 
                     System.out.println(movie);
