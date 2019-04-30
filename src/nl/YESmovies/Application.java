@@ -175,14 +175,21 @@ public class Application {
                             enteredValidGenre = false;
                         } catch (NumberFormatException e){
 
-                        }
+                        }/* finally {
+                            System.out.println("The chosen genres are "+ movie.getGenreString());
+                            System.out.println("If you are content with the chosen genres, press 'y', if not press any other key.");
+                            userInput = reader.nextLine();
+                            if(!reader.nextLine().equals("y"){
+                                enteredValidGenre = false;
+                            }
+                        }*/
                     } while (!enteredValidGenre);
                     
                     Movie.movieObjectList.add(movie);
 
                     System.out.println(movie);
 
-                    System.out.println("If you want to add another movie, press 'y', if not press any key.");
+                    System.out.println("If you want to add another movie, press 'y', if not press any other key.");
 
                     if (!reader.nextLine().equals("y")){
                         addMovie = false;
