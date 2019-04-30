@@ -25,7 +25,8 @@ public class Movie {
             total += rated.getValue();
         }
         this.nrRatings = ratingList.size();
-        this.yesRating = (float)total / nrRatings;
+
+        this.yesRating = (float)Math.round((total / nrRatings)*10)/10;
     }
 
     public HashMap<String,Float> getRatingList(){
