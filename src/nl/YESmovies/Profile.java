@@ -36,6 +36,9 @@ public class Profile {
         return myRatingsList.get(movieTitle);
     }
 
+    public HashMap<String, Float> getMyRatingsList() {
+        return myRatingsList;
+    }
 
     public long getId() {
         return id;
@@ -63,12 +66,18 @@ public class Profile {
     }
 
     //Getter that displays the preferred genres in text form
-    public void getPreferredGenresText() {
+    public String getPreferredGenresText() {
+        String output = "";
         for (int i = 0; i < preferredGenresInt.length; i++) {
             if (preferredGenresInt[i] == 1) {
+
                 System.out.print(Movie.genresString[i]+" ");
+
+                output += Movie.genresString[i]+" ";
+
             }
         }
+        return output;
     }
 
     public void addPreferredGenres(int index) {
