@@ -35,6 +35,9 @@ public class Profile {
         return myRatingsList.get(movieTitle);
     }
 
+    public HashMap<String, Float> getMyRatingsList() {
+        return myRatingsList;
+    }
 
     public long getId() {
         return id;

@@ -262,39 +262,112 @@ public class Application {
             } else if (userInput.equals("q")) {
                 keepGoing = false;
             } else if (userInput.equals("Test")){
-                //option print all info, all info on one movie/all info on one profile
-                System.out.println("movieList: " + Arrays.toString(Movie.movieList.toArray()));
 
-                for(Movie movie:Movie.movieObjectList){
-                    System.out.println("m1 Title: " + movie.getTitle() +
-                            "\nm1 Genres: " + movie.getGenres()+
-                            "\nm1 Year: " + movie.getReleaseYear() +
-                            "\nm1 ID: " + movie.getId() +
-                            "\nm1 IMDB rating: " + movie.getImdbRating() +
-                            "\nm1 YESrating (average): " + movie.getYesRating());
+                try {
+                    System.out.println("movieList: " + Arrays.toString(Movie.movieList.toArray()));
+                    System.out.println("profileList: " + Arrays.toString(Profile.profileList.toArray()));
+                    TEST_LOOP: do {
+                        System.out.println("\nto get info on a specific Movie or Profile object, type 'm' or 'p' followed by the name/title found in the above list" +
+                                "\nTo get info on all movies or all profiles, type 'all m' or 'all p'" +
+                                "\nTo return to main menu, type c");
+                        String entry = reader.nextLine();
+                        if (entry.trim().charAt(0) == 'm') {
+                            if (Movie.movieList.contains(entry.substring(1).trim())) {
+                                boolean available = false;
 
-                    System.out.println("ratingsList: ");
-                    for(Map.Entry<String,Float> rated : movie.getRatingList().entrySet()){
-                        System.out.println(rated.getValue() + "");
-                    }
+                                for (int i = 0; i< Movie.movieObjectList.size();i++) {
+                                    if(Movie.movieObjectList.get(i).getTitle().equals(entry.substring(1).trim())) {
+                                        Movie movie = Movie.movieObjectList.get(i); //adjust
+                                        available = true;
+
+                                        System.out.println("m1 Title: " + movie.getTitle() +
+                                                "\nm1 Genres: " + movie.getGenres() +
+                                                "\nm1 Year: " + movie.getReleaseYear() +
+                                                "\nm1 ID: " + movie.getId() +
+                                                "\nm1 IMDB rating: " + movie.getImdbRating() +
+                                                "\nm1 YESrating (average): " + movie.getYesRating());
+
+                                        System.out.println("ratingsList: ");
+                                        for (Map.Entry<String, Float> rated : movie.getRatingList().entrySet()) {
+                                            System.out.println(rated.getValue() + "");
+                                        }
+                                    }
+                                }
+                                if(available==false){
+                                    System.out.println("movie with the given name not found in movieObjectList");
+                                }
+
+                            } else {
+                                System.out.println("movie with the given name not found in movieList");
+                            }
+
+                        } else if (entry.trim().charAt(0) == 'p') {
+                            if (Profile.profileList.contains(entry.substring(1).trim())) {
+                                boolean available = false;
+
+                                for (int i = 0; i< Profile.profileObjectList.size();i++){
+                                    if(Profile.profileObjectList.get(i).getUserName().equals(entry.substring(1).trim())){
+                                        Profile profile = Profile.profileObjectList.get(i); //adjust
+                                        available = true;
+
+                                        System.out.println("p1 Username: " + profile.getUserName() +
+                                                "\np1 Preferred Genres: " + profile.getPreferredGenresText() +
+                                                "\np1 Preferred Genres (array): " + profile.getPreferredGenresArray() +
+                                                "\np1 Watched movies: " + profile.getWatchedMovies() +
+                                                "\np1 Id: " + profile.getId());
+
+                                        System.out.println("p1 rated movies: ");
+                                        for (Map.Entry<String, Float> rating : profile.getMyRatingsList().entrySet()) {
+                                            System.out.println(rating.getKey() + ": " + rating.getValue());
+                                        }
+                                    }
+                                }
+                                if(available==false){
+                                    System.out.println("profile with the given name not found in profileObjectList");
+                                }
+                            } else {
+                                System.out.println("profile with the given name not found in profileList");
+                            }
+
+                        } else if (entry.trim().equals("c")) {
+                            continue MENU_OPTIONS;
+
+                        } else if (entry.trim().equals("all m")) {
+                            for (Movie movie : Movie.movieObjectList) {
+                                System.out.println("m1 Title: " + movie.getTitle() +
+                                        "\nm1 Genres: " + movie.getGenres() +
+                                        "\nm1 Year: " + movie.getReleaseYear() +
+                                        "\nm1 ID: " + movie.getId() +
+                                        "\nm1 IMDB rating: " + movie.getImdbRating() +
+                                        "\nm1 YESrating (average): " + movie.getYesRating());
+
+                                System.out.println("ratingsList: ");
+                                for (Map.Entry<String, Float> rated : movie.getRatingList().entrySet()) {
+                                    System.out.println(rated.getValue() + "");
+                                }
+                            }
+
+                        } else if (entry.trim().equals("all p")) {
+                            for (Profile profile : Profile.profileObjectList) {
+                                System.out.println("p1 Username: " + profile.getUserName() +
+                                        "\np1 Preferred Genres: " + profile.getPreferredGenresText() +
+                                        "\np1 Preferred Genres (array): " + profile.getPreferredGenresArray() +
+                                        "\np1 Watched movies: " + profile.getWatchedMovies() +
+                                        "\np1 Id: " + profile.getId());
+
+                                for (Map.Entry<String, Float> rating : profile.getMyRatingsList().entrySet()) {
+                                    System.out.println("p1 rated movies: ");
+                                    System.out.println(rating.getKey() + ": " + rating.getValue());
+                                }
+                            }
+
+                        } else {
+                            System.out.println("invalid entry, please try again");
+                        }
+                    } while (true);
+                }catch(RuntimeException e){
+                    e.printStackTrace();
                 }
-
-                // put this in enhanced for loop too
-                Profile p1 = Profile.profileObjectList.get(0);
-                Profile p2 = Profile.profileObjectList.get(1);
-                
-                System.out.println("profileList: " + Arrays.toString(Profile.profileList.toArray()));
-
-                System.out.println("p1 Username: " + p1.getUserName() +
-                        "\np1 Preferred Genres: " + p1.getPreferredGenresText() +
-                        "\np1 Preferred Genres (array): " + p1.getPreferredGenresArray() +
-                        "\np1 Watched movies: " + p1.getWatchedMovies() +
-                        "\np1 Id: " +p1.getId());
-
-                p1.getMyRating("m1");
-                p1.getMyRating("m2");
-
-
             } else {
                 System.out.println("Please enter a valid option.");
             }
