@@ -17,24 +17,7 @@ public class Application {
 
             if (userInput.equals("p")) {
                 // Add Profile
-                boolean retryEnterUsername = true;
-                String newUsername;
-                do {
-                    System.out.println("What username would you like to use?");
-                    newUsername = reader.nextLine();
-                    // check if username is unique
-                    if (Profile.profileList.contains(newUsername)) {
-                        System.out.println("The username you entered is already in use. Please enter a different username.");
-                    } else {
-                        System.out.println("The username you entered is: '"+newUsername+"'. \nIf you are happy with this username, press 'y'. " +
-                                "If you wish to make changes, press any other key.");
-                        String usernameDone = reader.nextLine();
-                        if (usernameDone.equals("y")) {
-                        retryEnterUsername = false;
-                        }
-                    }
-                } while (retryEnterUsername);
-                Profile newProfile = new Profile(newUsername);
+                Profile newProfile = new Profile(Profile.chooseUsernameProfile());
                 Profile.profileObjectList.add(newProfile);
 
                 // adding/removing genres to/from the int[] preferred genres
@@ -43,33 +26,13 @@ public class Application {
                 do {
                     System.out.println("Please enter your preferred movie genres to proceed by selecting the numbers indicated in the list below, separated by commas. \n" +
                             "If you would like to remove genres from your preferences, enter the same number with a '-' in front of it.");
-                    for (int i =0; i < Movie.genresString.length; i++) {
-                        if ((i+1)%12 == 0) {
-                            System.out.println(Movie.genresString[i]+"("+(i+1)+")     ");
-                        } else {
-                            System.out.print(Movie.genresString[i] + "(" + (i + 1) + ")     ");
-                        }
-                    }
-                    System.out.println();
+                    // print function for the full genre options String fits better in class Movie
+                    System.out.println(newProfile.printGenreOptions());
+
                     String chosenPreferredGenres = reader.nextLine();
 
                     try {
-                        while (chosenPreferredGenres.contains(",")) {
-                            String chosenPreferredGenres_a = chosenPreferredGenres.substring(0, chosenPreferredGenres.indexOf(","));
-                            if (chosenPreferredGenres_a.charAt(0) == '-') {
-                                String chosenPreferredGenres_1 = chosenPreferredGenres_a.substring(1);
-                                newProfile.removePreferredGenres(Integer.parseInt(chosenPreferredGenres_1) - 1);
-                            } else {
-                                newProfile.addPreferredGenres(Integer.parseInt(chosenPreferredGenres_a) - 1);
-                            }
-                            chosenPreferredGenres = chosenPreferredGenres.substring(chosenPreferredGenres.indexOf(",") + 1);
-                        }
-                        if (chosenPreferredGenres.charAt(0) == '-') {
-                            String chosenPreferredGenres_1 = chosenPreferredGenres.substring(1);
-                            newProfile.removePreferredGenres(Integer.parseInt(chosenPreferredGenres_1) - 1);
-                        } else {
-                            newProfile.addPreferredGenres(Integer.parseInt(chosenPreferredGenres) - 1);
-                        }
+                       newProfile.enterPreferredGenres(chosenPreferredGenres);
                     }
                     catch (NumberFormatException nfe) {
                         System.out.println("You have entered an invalid genre number. Please select a number from the list.");

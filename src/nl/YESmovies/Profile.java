@@ -2,6 +2,7 @@ package nl.YESmovies;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Scanner;
 
 public class Profile {
     public static ArrayList<Profile> profileObjectList = new ArrayList<>();
@@ -90,4 +91,59 @@ public class Profile {
         profileList.add(username); //Add username to the ArrayList with all usernames
         profileObjectList.add(this);
     }
+
+    public static String chooseUsernameProfile() {
+        Scanner reader = new Scanner(System.in);
+        boolean retryEnterUsername = true;
+        String newUsername;
+        do {
+            System.out.println("What username would you like to use?");
+            newUsername = reader.nextLine();
+            // check if username is unique
+            if (Profile.profileList.contains(newUsername)) {
+                System.out.println("The username you entered is already in use. Please enter a different username.");
+            } else {
+                System.out.println("The username you entered is: '"+newUsername+"'. \nIf you are happy with this username, press 'y'. " +
+                        "If you wish to make changes, press any other key.");
+                String usernameDone = reader.nextLine();
+                if (usernameDone.equals("y")) {
+                    retryEnterUsername = false;
+                }
+            }
+        } while (retryEnterUsername);
+
+        return newUsername;
+    }
+
+    public String printGenreOptions() {
+        String output = "";
+        for (int i =0; i < Movie.genresString.length; i++) {
+            if ((i+1)%12 == 0) {
+                output += Movie.genresString[i]+"("+(i+1)+")  \n";
+            } else {
+                output += Movie.genresString[i]+"("+(i+1)+")  ";
+            }
+        }
+        return output;
+    }
+
+    public void enterPreferredGenres(String chosenPreferredGenres) {
+        while (chosenPreferredGenres.contains(",")) {
+            String chosenPreferredGenres_a = chosenPreferredGenres.substring(0, chosenPreferredGenres.indexOf(","));
+            if (chosenPreferredGenres_a.charAt(0) == '-') {
+                String chosenPreferredGenres_1 = chosenPreferredGenres_a.substring(1);
+                removePreferredGenres(Integer.parseInt(chosenPreferredGenres_1) - 1);
+            } else {
+                addPreferredGenres(Integer.parseInt(chosenPreferredGenres_a) - 1);
+            }
+            chosenPreferredGenres = chosenPreferredGenres.substring(chosenPreferredGenres.indexOf(",") + 1);
+        }
+        if (chosenPreferredGenres.charAt(0) == '-') {
+            String chosenPreferredGenres_1 = chosenPreferredGenres.substring(1);
+            removePreferredGenres(Integer.parseInt(chosenPreferredGenres_1) - 1);
+        } else {
+            addPreferredGenres(Integer.parseInt(chosenPreferredGenres) - 1);
+        }
+    }
+
 }
