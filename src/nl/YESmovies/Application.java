@@ -78,9 +78,7 @@ public class Application {
                         System.out.println("You have entered an invalid genre number. Please select a number from the list.");
                     }
 
-                    System.out.print("The genres you have chosen are: ");
-                    newProfile.getPreferredGenresText();
-                    System.out.println();
+                    System.out.println("The genres you have chosen are: "+newProfile.getPreferredGenresText());
                     System.out.println("If you are happy with your selection, press 'y'. If you would like to edit your genre selection, press any other key.");
                     String changeRetryEnterPreferredGenres = reader.nextLine();
                     if (changeRetryEnterPreferredGenres.equals("y")) {
