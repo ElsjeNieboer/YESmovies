@@ -195,8 +195,6 @@ public class Application {
                 } while (addMovie);
 
             } else if (userInput.equals("r")) {
-                // Add Rating
-
                 do {
                     System.out.println("To rate a movie, please enter your username. To return to main screen, press c");
 
@@ -222,30 +220,17 @@ public class Application {
                                             System.out.println("Would you like to rate " + movieTitle + " with a " + movieRating + "?" +
                                                     "\nTo confirm, press y. To cancel, press n. To cancel and return to main screen, press c");
                                             String rerate = reader.nextLine().trim();
-                                            if(rerate.equals("y")){
 
-                                                // Add rating to movie-ratings list and calculate new mean rating for that movie
-                                                for(int i = 0; i<Movie.movieObjectList.size();i++){
-                                                    if (Movie.movieObjectList.get(i).getTitle().equals(movieTitle)){
-                                                        Movie.movieObjectList.get(i).addYesRating(userName,(float)movieRating);
-                                                    }
-                                                }
-
-                                                // Add rating for this specific movie to profile
-                                                for(int i = 0; i<Profile.profileObjectList.size();i++){
-                                                    if (Profile.profileObjectList.get(i).getUserName().equals(userName)){
-                                                        Profile.profileObjectList.get(i).setMyRating(movieTitle,(float)movieRating);
-                                                    }
-                                                }
-
-                                                System.out.println("Thank you for rating this movie!");
-                                                continue MENU_OPTIONS;
-                                            } else if(rerate.equals("c")){
-                                                continue MENU_OPTIONS;
-                                            } else if(rerate.equals("n")){
-                                                continue RATE_MOVIE;
-                                            } else {
-                                                System.out.println("please enter a valid option");
+                                            switch (rerate){
+                                                case "y":
+                                                    rateMovie(userName, movieTitle,(float) movieRating);
+                                                    continue MENU_OPTIONS;
+                                                case "c":
+                                                    continue MENU_OPTIONS;
+                                                case "n":
+                                                    continue RATE_MOVIE;
+                                                default:
+                                                    System.out.println("please enter a valid option");
                                             }
                                         }else {
                                             System.out.println("that is not a valid rating (not within the required range), please try again");
@@ -255,7 +240,7 @@ public class Application {
                                         if (movieRatingInput.equals("c")) {
                                             continue MENU_OPTIONS;
                                         } else {
-                                        System.out.println("that is not a valid rating (not a number), please try again");
+                                        System.out.println("that is not a valid rating (not a number/uses comma), please try again");
                                         }
                                     }
                                 }
@@ -269,16 +254,16 @@ public class Application {
                     } else {
                         System.out.println("Username not found, please try again.");
                     }
-
                 }while(true);
             } else if (userInput.equals("q")) {
                 keepGoing = false;
             } else if (userInput.equals("Test")){
 
                 try {
-                    System.out.println("movieList: " + Arrays.toString(Movie.movieList.toArray()));
-                    System.out.println("profileList: " + Arrays.toString(Profile.profileList.toArray()));
-                    TEST_LOOP: do {
+                    printAllMovieTitles();
+                    printAllUsernames();
+
+                    do {
                         System.out.println("\nto get info on a specific Movie or Profile object, type 'm' or 'p' followed by the name/title found in the above list" +
                                 "\nTo get info on all movies or all profiles, type 'all m' or 'all p'" +
                                 "\nTo return to main menu, type c");
@@ -291,106 +276,43 @@ public class Application {
                                     if(Movie.movieObjectList.get(i).getTitle().equals(entry.substring(1).trim())) {
                                         Movie movie = Movie.movieObjectList.get(i); //adjust
                                         available = true;
-
-                                        System.out.println("m1 Title: " + movie.getTitle() +
-                                                "\nm1 Genres: " + movie.getGenreString() +
-                                                "\nm1 Year: " + movie.getReleaseYear() +
-                                                "\nm1 ID: " + movie.getId() +
-                                                "\nm1 IMDB rating: " + movie.getImdbRating() +
-                                                "\nm1 YESrating (average): " + movie.getYesRating());
-
-                                        System.out.println("ratingsList: ");
-                                        for (Map.Entry<String, Float> rated : movie.getRatingList().entrySet()) {
-                                            System.out.println(rated.getValue() + "");
-                                        }
+                                        getMovieInfo(movie);
                                     }
                                 }
-                                if(available==false){
+                                if(!available){
                                     System.out.println("movie with the given name not found in movieObjectList");
                                 }
-
                             } else {
                                 System.out.println("movie with the given name not found in movieList");
                             }
-
-
                         } else if (entry.trim().charAt(0) == 'p') {
                             if (Profile.profileList.contains(entry.substring(1).trim())) {
                                 boolean available = false;
-
-//                System.out.println("m1 Title: " + m1.getTitle() +
-//                        "\nm1 Genres: " + m1.getGenreString()+
-//                        "\nm1 Year: " + m1.getReleaseYear() +
-//                        "\nm1 ID: " + m1.getId() +
-//                        "\nm1 IMDB rating: " + m1.getImdbRating() +
-//                        "\nm1 YESrating (average): " + m1.getYesRating()
-//                );
-
 
                                 for (int i = 0; i< Profile.profileObjectList.size();i++){
                                     if(Profile.profileObjectList.get(i).getUserName().equals(entry.substring(1).trim())){
                                         Profile profile = Profile.profileObjectList.get(i); //adjust
                                         available = true;
-
-
-                                        System.out.println("p1 Username: " + profile.getUserName() +
-                                                "\np1 Preferred Genres: " + profile.getPreferredGenresText() +
-                                                "\np1 Preferred Genres (array): " + profile.getPreferredGenresArray() +
-                                                "\np1 Watched movies: " + profile.getWatchedMovies() +
-                                                "\np1 Id: " + profile.getId());
-
-//                System.out.println("p1 Username: " + p1.getUserName() +
-//                        "\np1 Preferred Genres: " + p1.getPreferredGenresText() +
-//                        "\np1 Preferred Genres (array): " + p1.getPreferredGenresArray() +
-//                        "\np1 Watched movies: " + p1.getWatchedMovies() +
-//                        "\np1 Id: " +p1.getId());
-
-
-                                        System.out.println("p1 rated movies: ");
-                                        for (Map.Entry<String, Float> rating : profile.getMyRatingsList().entrySet()) {
-                                            System.out.println(rating.getKey() + ": " + rating.getValue());
-                                        }
+                                        getProfileInfo(profile);
                                     }
                                 }
-                                if(available==false){
+                                if(!available){
                                     System.out.println("profile with the given name not found in profileObjectList");
                                 }
                             } else {
                                 System.out.println("profile with the given name not found in profileList");
                             }
-
                         } else if (entry.trim().equals("c")) {
                             continue MENU_OPTIONS;
 
                         } else if (entry.trim().equals("all m")) {
                             for (Movie movie : Movie.movieObjectList) {
-                                System.out.println("m1 Title: " + movie.getTitle() +
-                                        "\nm1 Genres: " + movie.getGenreString() +
-                                        "\nm1 Year: " + movie.getReleaseYear() +
-                                        "\nm1 ID: " + movie.getId() +
-                                        "\nm1 IMDB rating: " + movie.getImdbRating() +
-                                        "\nm1 YESrating (average): " + movie.getYesRating());
-
-                                System.out.println("ratingsList: ");
-                                for (Map.Entry<String, Float> rated : movie.getRatingList().entrySet()) {
-                                    System.out.println(rated.getValue() + "");
-                                }
+                                getMovieInfo(movie);
                             }
-
                         } else if (entry.trim().equals("all p")) {
                             for (Profile profile : Profile.profileObjectList) {
-                                System.out.println("p1 Username: " + profile.getUserName() +
-                                        "\np1 Preferred Genres: " + profile.getPreferredGenresText() +
-                                        "\np1 Preferred Genres (array): " + profile.getPreferredGenresArray() +
-                                        "\np1 Watched movies: " + profile.getWatchedMovies() +
-                                        "\np1 Id: " + profile.getId());
-
-                                for (Map.Entry<String, Float> rating : profile.getMyRatingsList().entrySet()) {
-                                    System.out.println("p1 rated movies: ");
-                                    System.out.println(rating.getKey() + ": " + rating.getValue());
-                                }
+                                getProfileInfo(profile);
                             }
-
                         } else {
                             System.out.println("invalid entry, please try again");
                         }
@@ -402,5 +324,68 @@ public class Application {
                 System.out.println("Please enter a valid option.");
             }
         } while(keepGoing);
+    }
+
+
+//------------------------------------------------METHODS-------------------------------------------------------------//
+
+    private static void getMovieInfo(Movie movie){
+        System.out.println("m1 Title: " + movie.getTitle() +
+                "\nm1 Genres: " + movie.getGenreString() +
+                "\nm1 Year: " + movie.getReleaseYear() +
+                "\nm1 ID: " + movie.getId() +
+                "\nm1 IMDB rating: " + movie.getImdbRating() +
+                "\nm1 YESrating (average): " + movie.getYesRating());
+
+        System.out.println("ratingsList: ");
+        for (Map.Entry<String, Float> rated : movie.getRatingList().entrySet()) {
+            System.out.println(rated.getValue() + "");
+        }
+    }
+
+    private static void getProfileInfo(Profile profile){
+        System.out.println("p1 Username: " + profile.getUserName() +
+                "\np1 Preferred Genres: " + profile.getPreferredGenresText() +
+                "\np1 Preferred Genres (array): " + profile.getPreferredGenresArray() +
+                "\np1 Watched movies: " + profile.getWatchedMovies() +
+                "\np1 Id: " + profile.getId());
+
+        for (Map.Entry<String, Float> rating : profile.getMyRatingsList().entrySet()) {
+            System.out.println("p1 rated movies: ");
+            System.out.println(rating.getKey() + ": " + rating.getValue());
+        }
+    }
+
+    private static void printAllMovieTitles(){
+        Object[] movieArray =  Movie.movieList.toArray();
+        Arrays.sort(movieArray);
+        System.out.println("-----------MOVIE LIST:-----------");
+        for(int i = 0; i<movieArray.length;i++){
+            System.out.println(movieArray[i]);
+        }
+    }
+
+    private static void printAllUsernames(){
+        Object[] profileArray =  Profile.profileList.toArray();
+        Arrays.sort(profileArray);
+        System.out.println("---------USERNAME LIST:----------");
+        for(int i = 0; i<profileArray.length;i++){
+            System.out.println(profileArray[i]);
+        }
+    }
+
+    private static void rateMovie(String userName, String movieTitle,float movieRating){
+        for(int i = 0; i<Movie.movieObjectList.size();i++){
+            if (Movie.movieObjectList.get(i).getTitle().equals(movieTitle)){
+                Movie.movieObjectList.get(i).addYesRating(userName,movieRating);
+            }
+        }
+
+        for(int i = 0; i<Profile.profileObjectList.size();i++){
+            if (Profile.profileObjectList.get(i).getUserName().equals(userName)){
+                Profile.profileObjectList.get(i).setMyRating(movieTitle,movieRating);
+            }
+        }
+        System.out.println("Thank you for rating this movie!");
     }
 }
