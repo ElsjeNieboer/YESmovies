@@ -70,9 +70,6 @@ public class Profile {
         String output = "";
         for (int i = 0; i < preferredGenresInt.length; i++) {
             if (preferredGenresInt[i] == 1) {
-
-                System.out.print(Movie.genresString[i]+" ");
-
                 output += Movie.genresString[i]+" ";
 
             }

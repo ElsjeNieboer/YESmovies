@@ -87,8 +87,7 @@ public class Application {
                 } while (retryEnterPreferredGenres);
 
                 System.out.println("You have successfully created a new profile with the following username: "+newProfile.getUserName()+".");
-                System.out.print("You have entered the following genres as your preferred genres: ");
-                newProfile.getPreferredGenresText();
+                System.out.println("You have entered the following genres as your preferred genres: "+newProfile.getPreferredGenresText()+".");
                 System.out.println("You will now return to the main menu.");
 
             } else if (userInput.equals("m")) {
