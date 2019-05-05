@@ -3,6 +3,7 @@ package nl.YESmovies;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Scanner;
 
 public class Movie {
     public static ArrayList<Movie> movieObjectList = new ArrayList<>();
@@ -51,6 +52,66 @@ public class Movie {
 
     private int[] genreInt = new int[genresString.length];
 
+    public static short enterReleaseYear(){
+        Scanner reader = new Scanner(System.in);
+
+        System.out.println("What is the release year?");
+
+        short releaseYear = 0;
+
+        boolean enteredValidReleaseYear;
+
+        do {
+            enteredValidReleaseYear = true;
+            try {
+                releaseYear = Short.parseShort(reader.nextLine());
+            } catch (NumberFormatException e) {
+                System.out.println("You have entered an invalid release year, please enter the release year in digits.");
+                enteredValidReleaseYear = false;
+            }
+        } while (!enteredValidReleaseYear);
+        return releaseYear;
+    }
+
+    public void addGenre(){
+        Scanner reader = new Scanner(System.in);
+        boolean enteredValidGenre;
+
+        do {
+            enteredValidGenre = true;
+
+            System.out.println("Which genre(s) is the movie? Please enter the genre numbers separated by a ','.");
+
+            for (int i = 0; i < Movie.genresString.length; i++) {
+                System.out.print(Movie.genresString[i] + "(" + (i + 1) + ")  ");
+                if((i+1) % 12 == 0){
+                    System.out.println();
+                }
+            }
+            System.out.println();
+
+            String genreInput = reader.nextLine();
+
+            try {
+                while (genreInput.contains(",")) {
+                    String genreInput_a = genreInput.substring(0, genreInput.indexOf(","));
+                    this.genreInt[Integer.parseInt(genreInput_a.trim()) - 1] = 1;
+                    genreInput = genreInput.substring(genreInput.indexOf(",") + 1);
+                }
+
+                this.genreInt[Integer.parseInt(genreInput.trim()) - 1] = 1;
+
+            } catch (ArrayIndexOutOfBoundsException e){
+                System.out.println("You have entered an invalid genre number, please enter a valid genre number.");
+
+                enteredValidGenre = false;
+            } catch (NumberFormatException e){
+
+            }
+
+        } while (!enteredValidGenre);
+    }
+
     public long getId() {
         return id;
     }
@@ -73,10 +134,6 @@ public class Movie {
 
     public int[] getGenreInt() {
         return genreInt;
-    }
-
-    public void addGenre(int index) {
-        this.genreInt[index] = 1;
     }
 
     public void removeGenre(int index) {

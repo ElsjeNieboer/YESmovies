@@ -11,7 +11,7 @@ public class Application {
             Scanner reader = new Scanner(System.in);
 
             System.out.println("If you want to add a new profile, press 'p'. If you want to add a new movie, press 'm'." +
-                    "If you want to add a new rating, press r. If you want to quit, press 'q'.");
+                    "If you want to add a new rating, press 'r'. If you want to quit, press 'q'.");
 
             String userInput = reader.nextLine();
 
@@ -102,22 +102,7 @@ public class Application {
 
                     String movieName = reader.nextLine();
 
-                    System.out.println("What is the release year?");
-
-                    short releaseYear = 0;
-
-                    boolean enteredValidReleaseYear;
-
-                    do {
-                        enteredValidReleaseYear = true;
-                        try {
-                            releaseYear = Short.parseShort(reader.nextLine());
-                        } catch (NumberFormatException e) {
-                            System.out.println("You have entered an invalid release year, please enter the release year in digits.");
-                            enteredValidReleaseYear = false;
-                        }
-                    } while (!enteredValidReleaseYear);
-
+                    short releaseYear = Movie.enterReleaseYear();
 
                     float imdbRating = -1;
                     IMDB_LOOP: do {
@@ -139,49 +124,16 @@ public class Application {
 
                     Movie movie = new Movie(movieName, releaseYear, imdbRating);
 
-
-
-                    boolean enteredValidGenre;
-
-                    do {
-                        enteredValidGenre = true;
-
-                        System.out.println("Which genre(s) is the movie? Please enter the genre number(s).");
-
-                        for (int i = 0; i < Movie.genresString.length; i++) {
-                            System.out.print(Movie.genresString[i] + "(" + (i + 1) + ")  ");
-                            if((i+1) % 12 == 0){
-                                System.out.println();
-                            }
+                    boolean addGenre = true;
+                    do{
+                        movie.addGenre();
+                        System.out.println("The chosen genres are " + movie.getGenreString());
+                        System.out.println("If you are content with the chosen genres, press 'y', if you want to add " +
+                                "more genres press any other key.");
+                        if (reader.nextLine().equals("y")) {
+                            addGenre = false;
                         }
-                        System.out.println();
-
-                        String genreInput = reader.nextLine();
-
-                        try {
-                            while (genreInput.contains(",")) {
-                                String genreInput_a = genreInput.substring(0, genreInput.indexOf(","));
-                                movie.addGenre(Integer.parseInt(genreInput_a.trim()) - 1);
-                                genreInput = genreInput.substring(genreInput.indexOf(",") + 1);
-                            }
-
-                            movie.addGenre(Integer.parseInt(genreInput.trim()) - 1);
-
-                        } catch (ArrayIndexOutOfBoundsException e){
-                            System.out.println("You have entered an invalid genre number, please enter a valid genre number.");
-
-                            enteredValidGenre = false;
-                        } catch (NumberFormatException e){
-
-                        } finally {
-                            System.out.println("The chosen genres are " + movie.getGenreString());
-                            System.out.println("If you are content with the chosen genres, press 'y', if not press any other key.");
-                            if (!reader.nextLine().equals("y")) {
-                                enteredValidGenre = false;
-                            }
-                        }
-
-                    } while (!enteredValidGenre);
+                    } while (addGenre);
 
                     Movie.movieObjectList.add(movie);
 
